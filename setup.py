@@ -1,5 +1,9 @@
 from setuptools import setup
 
+def readfile(filename):
+    with open(filename, 'r+') as f:
+        return f.read()
+    
 setup(
     name='which_block',
     url='https://github.com/cbrooks42/which_block',
