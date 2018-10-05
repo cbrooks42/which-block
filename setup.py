@@ -9,7 +9,6 @@ setup(
     url='https://github.com/cbrooks42/which_block',
     author='Chris Brooks',
     author_email='madbury@gmail.com',
-    packages=['which_block'],
     install_requires=['web3'],
     version='0.1',
     license='GPL-3.0',
