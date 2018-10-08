@@ -15,9 +15,9 @@ setup(
     py_modules=['which_block'],
     description='Accepts a contract address and a web3 host, quickly traverses the block chain, and returns the block hash and transaction hash in which the contract was deployed.',
     long_description=readfile('README.md'),
-    entry_points={
+    entry_points = {
         'console_scripts': [
-            'which_block = which_block:main'
-        ]
+            'which_block=which_block:main',
+        ],
     },
 )
