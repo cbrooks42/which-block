@@ -1,5 +1,5 @@
-# which_block
-Accepts an Ethereum contract address and a web3 host, quickly traverses the block chain, and returns the block hash and transaction hash in which the contract was deployed.
+# which-block
+Command Line Interface that accepts an Ethereum contract address and a web3 host, quickly traverses the block chain, and returns the block hash and transaction hash in which the contract was deployed.
 
 # Installation:
 
