@@ -17,3 +17,5 @@ which-block 0xe61b13797911b5a496Ec678db7EDd667F706aFdc https://ropsten.infura.io
   Block Hash: HexBytes('0x1f97549b206ce1fde9f4d861aab0fcf1ace447ac876d45d10c468d0574f5974d')
   Transaction Hash: HexBytes('0x14ae13ea060d67808056cc02ccf3a3007ca52af30ca0988c36c1aea8c9fc4f38')
 ```
+
+(Note: this is not a real API key for the Ropsten network -- you will throw an exception if you use it.)
