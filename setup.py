@@ -17,7 +17,7 @@ setup(
     long_description=readfile('README.md'),
     entry_points = {
         'console_scripts': [
-            'which_block=which_block:main',
+            'which-block=which_block:main',
         ],
     },
 )
