@@ -56,8 +56,6 @@ def main():
             print('Transaction Hash: ', end='', flush=True)
             pprint.pprint(transaction['transactionHash'])
 
-    print(find_block_nbr.__doc__)
-
 def round_up(val):
 
     """
