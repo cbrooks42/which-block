@@ -2,14 +2,13 @@
 
 import argparse
 import re
-import web3
 import pprint
 import math
-
 from web3 import Web3, HTTPProvider
 
 def main():
 
+    DEBUG = False 
     parser = argparse.ArgumentParser()
     parser.add_argument("contract_address", help="the address of the contract you want to examine")
     parser.add_argument("web3_host", help="host domain you want to examine (ex: https://ropsten.infura.io/v3/f54e8e6ed8e74724b81510b6a5c31d07)")
@@ -38,17 +37,15 @@ def main():
     tallest = w3.eth.getBlock('latest')['number']
 
     block_nbr = find_block_nbr( shortest, tallest, contract_address, w3 )
-    #print("The contract was deployed in Block number: ", block_nbr)
+    if DEBUG: print("The contract was deployed in Block number: ", block_nbr) 
 
-    #print("Contract Address: ", contract_address)
+    if DEBUG: print("Contract Address: ", contract_address)
     block = w3.eth.getBlock( block_nbr )
     transactions = block['transactions']
 
-    #print("Looping through transactions")
+    if DEBUG: print("Looping through transactions")
     for elem in transactions:
-        #print(elem)
         transaction = w3.eth.getTransactionReceipt(elem)
-        #pprint.pprint(transaction)
 
         if transaction['contractAddress'] == contract_address:
             print('Block Hash: ', end='', flush=True)
@@ -56,10 +53,10 @@ def main():
             print('Transaction Hash: ', end='', flush=True)
             pprint.pprint(transaction['transactionHash'])
 
+
 def round_up(val):
 
     """
-
     .. function:: round_up(val)
        Rounds *val* to the nearest integer.  .5 is always rounded up.
 
@@ -80,6 +77,9 @@ def round_up(val):
 def find_block_nbr( shortest, tallest, contract_address, w3):
 
     """
+    .. function:: find_block_nbr(shortest, tallest, contract_address, w3)
+       Returns the block number in which a smart contract was deployed
+
     find_block_nbr() finds the block at which the smart contract identified by the contract_address was deployed
     We find this by calling web3.eth.getCode(), which has an optional block_identifier param which specifies the block height
     If getCode() returns: Hexcode(0x) then we know that the block height is too short -- the contract was deployed in a later block
@@ -108,8 +108,6 @@ def find_block_nbr( shortest, tallest, contract_address, w3):
             tallest = block_height 
 
         return find_block_nbr(shortest, tallest, contract_address, w3)
-
-
 
 if __name__ == '__main__':
     main()
