@@ -11,7 +11,7 @@ def main():
     DEBUG = False 
     parser = argparse.ArgumentParser()
     parser.add_argument("contract_address", help="the address of the contract you want to examine")
-    parser.add_argument("web3_host", help="host domain you want to examine (ex: https://ropsten.infura.io/v3/f54e8e6ed8e74724b81510b6a5c31d07)")
+    parser.add_argument("web3_host", help="host domain you want to examine (ex: https://ropsten.infura.io/v3/f54e8e6ea8e73724b81518b6d5c31a07)")
     args = parser.parse_args()
 
     contract_address = args.contract_address
