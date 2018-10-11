@@ -30,7 +30,11 @@ def main():
     # web3.py instance
     w3 = Web3(HTTPProvider(web3_host))
 
-    shortest = w3.eth.getBlock('earliest')['number']
+    try:
+        shortest = w3.eth.getBlock('earliest')['number']
+    except:
+        print("\nOops.  It looks like you aren't authorized to use the Web3 host URL you provided. Please double-check your URL.\n")
+
     tallest = w3.eth.getBlock('latest')['number']
 
     block_nbr = find_block_nbr( shortest, tallest, contract_address, w3 )
@@ -52,8 +56,22 @@ def main():
             print('Transaction Hash: ', end='', flush=True)
             pprint.pprint(transaction['transactionHash'])
 
-#always round .5 up
+    print(find_block_nbr.__doc__)
+
 def round_up(val):
+
+    """
+
+    .. function:: round_up(val)
+       Rounds *val* to the nearest integer.  .5 is always rounded up.
+
+    round_up() always rounds .5 up to the nearest integer.  This was the default behavior of the round() function before Python 3.
+    In Python 3: "Exact halfway cases are now rounded to the nearest even result instead of away from zero. (For example, round(2.5) 
+    now returns 2 rather than 3.)" (source: https://docs.python.org/3/whatsnew/3.0.html)
+
+    Python 3's round() behavior would have given us inconsistent results in find_block_nbr()
+    """
+
     if (float(val) % 1) >= 0.5:
         x = math.ceil(val)
     else:
@@ -61,16 +79,20 @@ def round_up(val):
 
     return x
 
-#This function finds the block at which the smart contract identified by the contract_address was deployed
-#   We find this by calling web3.eth.getCode(), which has an optional block_identifier param which specifies the block height
-#   If getCode() returns: Hexcode(0x) then we know that the block height is too short -- the contract was deployed in a later block
-#   We then choose a new block height halfway between the tallest and shortest block heights that we have tested to see whether 
-#   the contract had been deployed before this new block
 def find_block_nbr( shortest, tallest, contract_address, w3):
 
-    #We're looking for the shortest and tallest block heights where the block heights are only separated by a single block, and
-    #   at which eth.getCode() returns None for the shorter block height and bytecode for the taller block height.  When we find 
-    #   that point, the taller block height will be the block number at which the contract was deployed.
+    """
+    find_block_nbr() finds the block at which the smart contract identified by the contract_address was deployed
+    We find this by calling web3.eth.getCode(), which has an optional block_identifier param which specifies the block height
+    If getCode() returns: Hexcode(0x) then we know that the block height is too short -- the contract was deployed in a later block
+    We then choose a new block height halfway between the tallest and shortest block heights that we have tested to see whether 
+    the contract had been deployed before this new block
+
+    We're looking for the shortest and tallest block heights where the block heights are only separated by a single block, and
+    at which eth.getCode() returns None for the shorter block height and bytecode for the taller block height.  When we find 
+    that point, the taller block height will be the block number at which the contract was deployed.
+    """
+
     if tallest - shortest == 1:
         return tallest
 
